@@ -52,6 +52,12 @@ client.connect(err => {
         res.send(result);
     })
 
+    // get my booking packages
+    app.get("/myPackages/:email", async (req, res) => {
+        const email = req.params.email;
+        const result = await bookingCollection.find({ email: (email) }).toArray();
+        res.send(result);
+    })
     // client.close();
 });
 
