@@ -58,6 +58,37 @@ client.connect(err => {
         const result = await bookingCollection.find({ email: (email) }).toArray();
         res.send(result);
     })
+
+    // remove a single package
+    app.delete("/myPackages/:id", async (req, res) => {
+        const id = req.params.id;
+        const result = await bookingCollection.deleteOne({ _id: ObjectId(id) });
+        res.send(result);
+    })
+
+    // get a single package
+    app.get("/allBookings/:id", async (req, res) => {
+        const id = req.params.id;
+        const result = await bookingCollection.findOne({ _id: ObjectId(id) });
+        res.send(result);
+    })
+
+    // update packages status
+    app.put("/allBookings/:id", async (req, res) => {
+        const id = req.params.id;
+        const update = req.body;
+        const find = { _id: ObjectId(id) };
+        const updateDoc = {
+            $set: {
+                status: update.status,
+            },
+        };
+        const result = await bookingCollection.updateOne(
+            find,
+            updateDoc,
+        );
+        res.json(result);
+    });
     // client.close();
 });
 
